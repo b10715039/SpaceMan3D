@@ -14,6 +14,7 @@
 		482E85C827EC1BD60032F11F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 482E85C727EC1BD60032F11F /* Assets.xcassets */; };
 		482E85CB27EC1BD60032F11F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 482E85C927EC1BD60032F11F /* LaunchScreen.storyboard */; };
 		482E85D227EC21610032F11F /* Collectable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 482E85D127EC21610032F11F /* Collectable.swift */; };
+		488DD0B327F43D9600C5A59C /* SharedConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 488DD0B227F43D9600C5A59C /* SharedConstants.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -25,6 +26,7 @@
 		482E85C727EC1BD60032F11F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		482E85CA27EC1BD60032F11F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		482E85D127EC21610032F11F /* Collectable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Collectable.swift; sourceTree = "<group>"; };
+		488DD0B227F43D9600C5A59C /* SharedConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharedConstants.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -41,6 +43,7 @@
 		482E85B227EC1BD50032F11F = {
 			isa = PBXGroup;
 			children = (
+				488DD0B227F43D9600C5A59C /* SharedConstants.swift */,
 				482E85BD27EC1BD50032F11F /* SpaceMan3D */,
 				482E85BC27EC1BD50032F11F /* Products */,
 			);
@@ -140,6 +143,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				488DD0B327F43D9600C5A59C /* SharedConstants.swift in Sources */,
 				482E85D227EC21610032F11F /* Collectable.swift in Sources */,
 				482E85C327EC1BD50032F11F /* GameViewController.swift in Sources */,
 				482E85BF27EC1BD50032F11F /* AppDelegate.swift in Sources */,
@@ -291,6 +295,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = GS22S3LAT6;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
@@ -320,6 +325,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = GS22S3LAT6;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;

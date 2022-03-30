@@ -9,7 +9,7 @@ import UIKit
 import QuartzCore
 import SceneKit
 import CoreMotion
-class GameViewController: UIViewController, SCNSceneRendererDelegate {
+class GameViewController: UIViewController, SCNSceneRendererDelegate, SCNPhysicsContactDelegate {
     var sceneView: SCNView!
     var mainScene: SCNScene!
     var cameraNode: SCNNode!
@@ -27,6 +27,7 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate {
         createMainCamera()
         sceneView.delegate = self
         setupAccelerometer()
+        setupHeroBody()
     }
     
     func createMainScene() -> SCNScene {
@@ -39,7 +40,16 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate {
         mainScene?.rootNode.addChildNode(Collectable.tubeNode())
         mainScene?.rootNode.addChildNode(Collectable.cylinderNode())
         mainScene?.rootNode.addChildNode(Collectable.torusNode())
+        let n1 = Collectable.tubeNode()
+        let n2 = Collectable.sphereNode()
+        n1.position = SCNVector3(x: 100, y: 40, z: 0)
+        n1.geometry?.firstMaterial?.diffuse.contents = UIColor.gray
+        n2.position = SCNVector3(x: 100, y: 80, z: 0)
+        mainScene?.rootNode.addChildNode(n1)
+        mainScene?.rootNode.addChildNode(n2)
+        
         setupLighting(mainScene!)
+        mainScene?.physicsWorld.contactDelegate = self
         return mainScene!
     }
     
@@ -128,7 +138,7 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate {
             motionManager.accelerometerUpdateInterval = 1/60.0
             motionManager.startAccelerometerUpdates(to: OperationQueue.main) {(data, error)
                 in
-                let heroNode = self.mainScene.rootNode.childNode(withName: "heror", recursively: true)?.presentation
+                let heroNode = self.mainScene.rootNode.childNode(withName: "hero", recursively: true)?.presentation
                 let currentX = heroNode?.position.x
                 let currentY = heroNode?.position.y
                 let currentZ = heroNode?.position.z
@@ -138,17 +148,50 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate {
                     let destinationX = (Float((data?.acceleration.y)!) * 10.0 + Float(currentX!))
                     let destinationY = Float(currentY!)
                     let destinationZ = Float(currentZ!)
-                    let action = SCNAction.move(by: SCNVector3(destinationX, destinationY, destinationZ), duration: 1)
+                    let action = SCNAction.move(to: SCNVector3(destinationX, destinationY, destinationZ), duration: 1)
                     heroNode?.runAction(action)
                 }
                 else if (data?.acceleration.y)! > threshold {
                     let destinationX = (Float((data?.acceleration.y)!) * 10.0 + Float(currentX!))
                     let destinationY = Float(currentY!)
                     let destinationZ = Float(currentZ!)
-                    let action = SCNAction.move(by: SCNVector3(destinationX, destinationY, destinationZ), duration: 1)
+                    let action = SCNAction.move(to: SCNVector3(destinationX, destinationY, destinationZ), duration: 1)
                     heroNode?.runAction(action)
                 }
             }
+        }
+    }
+    
+    func setupHeroBody() {
+        let heroNode = mainScene?.rootNode.childNode(withName: "hero", recursively: true)
+        heroNode?.position = SCNVector3(x: 0, y: 10, z: 0)
+        heroNode?.physicsBody = SCNPhysicsBody(type: .static, shape: nil)
+        heroNode?.physicsBody?.isAffectedByGravity = false
+        heroNode?.physicsBody?.categoryBitMask = CollisionCategoryHero
+        heroNode?.physicsBody?.contactTestBitMask = CollisionCategoryCollectibleLowValue | CollisionCategoryCollectibleMidValue | CollisionCategoryCollectibleHighValue | CollisionCategoryEnemy
+    }
+    
+    func physicsWorld(_ world: SCNPhysicsWorld, didBegin contact: SCNPhysicsContact) {
+        switch contact.nodeA.physicsBody?.categoryBitMask {
+        case CollisionCategoryCollectibleLowValue:
+            print("Hit a low value collectable")
+            contact.nodeA.removeFromParentNode()
+        case CollisionCategoryCollectibleMidValue:
+            print("Hit a mid value collectable")
+            contact.nodeA.removeFromParentNode()
+        case CollisionCategoryCollectibleHighValue:
+            print("Hit a high value collectable")
+            contact.nodeA.removeFromParentNode()
+        
+        case CollisionCategoryEnemy:
+            print("You Lose!")
+            let rotate = SCNAction.rotateBy(x: 0, y: 5, z: 0, duration: 5)
+            let moveon = SCNAction.moveBy(x: 0, y: 10, z: 0, duration: 5)
+            let fadeout = SCNAction.fadeOut(duration: 5)
+            contact.nodeB.runAction(SCNAction.group([rotate, moveon, fadeout]))
+        
+        default:
+            print("Hit something.")
         }
     }
 }
