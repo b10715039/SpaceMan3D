@@ -31,4 +31,48 @@ class Collectable {
         sphereNode.runAction(action)
         return sphereNode
     }
+    
+    class func boxNode() -> SCNNode {
+        let box = SCNBox(width: 6, height: 6, length: 6, chamferRadius: 0)
+        let boxNode = SCNNode(geometry: box)
+        boxNode.name = "box"
+        let position = SCNVector3Make(30, 10, 20)
+        boxNode.position = position
+        boxNode.geometry?.firstMaterial?.diffuse.contents = "boxSide2"
+        boxNode.geometry?.firstMaterial?.shininess = 1.0
+        return boxNode
+    }
+    
+    class func tubeNode() -> SCNNode {
+        let tube = SCNTube(innerRadius: 8, outerRadius: 10.0, height: 30.0)
+        let tubeNode = SCNNode(geometry: tube)
+        tubeNode.name = "tube"
+        let position = SCNVector3Make(-50, 20, 0)
+        tubeNode.position = position
+        tubeNode.geometry?.firstMaterial?.diffuse.contents = UIColor.yellow
+        tubeNode.geometry?.firstMaterial?.shininess = 1.0
+        return tubeNode
+    }
+    
+    class func cylinderNode() -> SCNNode {
+        let cylinder = SCNCylinder(radius: 6, height: 30)
+        let cylinderNode = SCNNode(geometry: cylinder)
+        cylinderNode.name = "cylinder"
+        let position = SCNVector3Make(30, 15, 50)
+        cylinderNode.position = position
+        cylinderNode.geometry?.firstMaterial?.diffuse.contents = "boxSide4"
+        cylinderNode.geometry?.firstMaterial?.shininess = 1.0
+        return cylinderNode
+    }
+    
+    class func torusNode() -> SCNNode {
+        let torus = SCNTorus(ringRadius: 12, pipeRadius: 5)
+        let torusNode = SCNNode(geometry: torus)
+        torusNode.name = "torus"
+        let position = SCNVector3Make(-40, 15, 50)
+        torusNode.position = position
+        torusNode.geometry?.firstMaterial?.diffuse.contents = "boxSide4"
+        torusNode.geometry?.firstMaterial?.shininess = 1.0
+        return torusNode
+    }
 }
